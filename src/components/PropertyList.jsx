@@ -3,7 +3,7 @@ import PropertyCard from "./PropertyCard";
 import hotelData from "./../data/stays.json";
 
 const PropertyList = () => (
-  <div className="max-w-7xl mx-auto px-4 py-5 md:py-14">
+  <div className="max-w-7xl mx-auto px-4 py-5 md:py-14 mt-[10rem]">
     <div className="flex flex-row justify-between pb-6">
       <h1 className="text-sm md:text-2xl font-bold text-gray-900">
         Stays in Finland
