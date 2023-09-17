@@ -1,6 +1,7 @@
 import React from "react";
 import { star } from "../assets";
 import ImageWithOverlay from "./ImageWithOverlay ";
+import { Link } from "react-router-dom";
 
 const PropertyCard = ({ data }) => {
   const superhostTag = data.superHost ? (

@@ -1,11 +1,14 @@
 import Logo from "./Logo";
 import SearchBar from "../searchComponent/SearchBar";
 
-const Header = () => {
+const Header = ({ updateSearchQuery }) => {
+  const handleSearch = (query) => {
+    updateSearchQuery(query);
+  };
   return (
-    <div className="mx-auto flex flex-col lg:flex-row lg:justify-between lg:items-center bg-white p-4 fixed w-full top-0 z-40">
+    <div className="max-w-screen-xl mx-auto flex flex-col lg:flex-row lg:justify-between lg:items-center bg-white p-4 lg:px-0 fixed inset-x-0 top-0 w-full z-40">
       <Logo />
-      <SearchBar />
+      <SearchBar updateSearchQuery={handleSearch} />
     </div>
   );
 };

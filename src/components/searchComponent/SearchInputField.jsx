@@ -1,85 +1,126 @@
 import React, { useState } from "react";
-import SearchResult from "./SearchResult";
-import SearchButton from "./SearchButton";
-import SemiTransparentOverlay from "./SemiTransparentOverlay ";
+import { close, searchW } from "../../assets";
+import PropTypes from "prop-types";
+import CountriesSelect from "./CountriesSelect";
+import GuestsSelect from "./GuestsSelect";
 
-const SearchInputField = ({
-  columns,
-  flex,
-  labelStyle,
-  paddingStyle,
-  IconSearchVisibility,
-  borderVisibility,
-}) => {
-  const [isInputFocused, setInputFocused] = useState(null);
-  const [searchResultVisible, setSearchResultVisible] = useState(false);
-  const [bodyOverflowHidden, setBodyOverflowHidden] = useState(false);
+const SearchInputField = ({ onClose, searchQuery }) => {
+  const [formData, setFormData] = useState({
+    guests: 1,
+    selectedCity: "",
+  });
 
-  const handleInputFocus = (index) => {
-    setInputFocused(index);
+  const [isFocusedInput, setFocusedInput] = useState(false);
+
+  const handleGuestsChange = (event) => {
+    const newValue = parseInt(event.target.value, 10);
+
+    if (!isNaN(newValue) && newValue > 0) {
+      setFormData({ ...formData, guests: newValue });
+    }
   };
 
-  const handleInputBlur = () => {
-    setInputFocused(null);
+  const handleButtonClick = (event) => {
+    const dataValue = event.target.getAttribute("data-value");
+    setFormData({ ...formData, selectedCity: dataValue });
   };
 
-  const toggleSearchResult = () => {
-    setSearchResultVisible(!searchResultVisible);
-    setBodyOverflowHidden(!bodyOverflowHidden);
+  const handleSearchClick = () => {
+    onClose();
+    if (typeof searchQuery === "function") {
+      searchQuery(formData);
+    }
   };
 
-  const closeSearchResult = () => {
-    setSearchResultVisible(false);
-    setBodyOverflowHidden(!bodyOverflowHidden);
+  const handleFocus = (inputType) => {
+    setFocusedInput(inputType);
   };
-
-  console.log(borderVisibility);
 
   return (
-    <div
-      className={`flex ${flex} ${paddingStyle} w-full lg:w-auto justify-evenly sm:justify-around`}
-    >
-      {columns.map((column, index) => (
-        <div
-          key={index}
-          className={`flex flex-col pr-0 ${
-            isInputFocused === index
-              ? borderVisibility === "active"
-                ? "lg:border-solid lg:border-2 lg:border-black"
-                : ""
-              : ""
-          } py-[0.5rem] rounded-[1rem] w-[9rem] ${
-            borderVisibility === "active" && `lg:w-[24rem]`
-          } lg:px-[1rem]`}
-        >
-          <label htmlFor={column.id} className={labelStyle}>
-            {column.label}
-          </label>
-          <input
-            type={column.type || "text"}
-            id={column.id}
-            placeholder={column.placeholder || ""}
-            className={`${
-              borderVisibility === "active" && `lg:w-[22rem]`
-            } focus:outline-none`}
-            onFocus={() => handleInputFocus(index)}
-            onBlur={handleInputBlur}
-          />
+    <div className="fixed z-50 h-full lg:h-auto w-full top-0 left-0 p-4 bg-white lg:flex lg:flex-row lg:items-start lg:justify-between lg:py-[2.81rem] lg:pr-[4rem] lg:py-[4rem] xl:pr-[6.06rem]">
+      <div className="flex flex-row justify-between items-center pb-[1rem] lg:hidden">
+        <p className="text-gray-700 font-mulish text-xs font-semibold ">
+          Edit your search
+        </p>
+        <button onClick={onClose}>
+          <img src={close} alt={close} className="w-[0.875rem]" />
+        </button>
+      </div>
+
+      <div className="flex flex-col lg:flex-row w-[90%] justify-between lg:justify-end lg:space-x-8 px-[1.62rem] py-[0.69rem] lg:py-0 space-y-6 lg:space-y-0">
+        <div>
+          <div className="flex flex-col lg:w-[20.625rem] group lg:px-[1.69rem] lg:py-[0.63rem] lg:rounded-[1rem] lg:border lg:border-[2px] lg:shadow-md p-2 transition duration-300 ease-in-out lg:hover:border-gray-500 xl:w-[26.625rem]">
+            <label className="text-gray-700 font-muli text-[0.5625rem] font-semibold uppercase">
+              location
+            </label>
+            <input
+              type="text"
+              id="text"
+              value={formData.selectedCity}
+              readOnly
+              placeholder="Helsinki, Finland"
+              className="outline-none focus:outline-none esm:w-[7.6rem] lg:w-[16.62rem] xl:w-[24.625rem]"
+              onFocus={() => handleFocus("city")}
+            />
+          </div>
+          <div className="hidden lg:block">
+            {isFocusedInput === "city" && (
+              <CountriesSelect handleButtonClick={handleButtonClick} />
+            )}
+          </div>
         </div>
-      ))}
-      {IconSearchVisibility === "hide" ? (
-        ""
-      ) : (
-        <SearchButton onClick={toggleSearchResult} />
-      )}
-      {searchResultVisible && (
-        <>
-          <SemiTransparentOverlay onClose={closeSearchResult} />{" "}
-          <SearchResult onClose={closeSearchResult} />
-        </>
-      )}
+
+        <div>
+          <div className="flex flex-col lg:w-[20.625rem] group lg:px-[1.69rem] lg:py-[0.63rem] lg:rounded-[1rem] lg:border lg:border-[2px] lg:shadow-md p-2 transition duration-300 ease-in-out lg:hover:border-gray-500 xl:w-[26.625rem]">
+            <label className="text-gray-700 font-muli text-[0.5625rem] font-semibold uppercase">
+              guests
+            </label>
+            <input
+              type="number"
+              min="1"
+              value={formData.guests}
+              id="guests"
+              placeholder="Add guests"
+              className="outline-none focus:outline-none esm:w-[7.6rem] lg:w-[16.62rem] xl:w-[24.625rem]"
+              onChange={handleGuestsChange}
+              onFocus={() => handleFocus("guests")}
+              disabled={
+                isFocusedInput === "guests" && window.innerWidth >= 1024
+              }
+            />
+          </div>
+          <div className="hidden lg:block">
+            {isFocusedInput === "guests" && (
+              <GuestsSelect
+                onGuestsChange={(guests) =>
+                  setFormData({ ...formData, guests })
+                }
+              />
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="lg:hidden">
+        <CountriesSelect handleButtonClick={handleButtonClick} />
+      </div>
+
+      <div className="flex justify-center mt-[11.35rem] lg:mt-0">
+        <button
+          className="flex mb-[0.875rem] lg:mb-[0] rounded-[1rem] bg-red-500 bg-opacity-90 hover:opacity-80 shadow-md px-[1.69rem] py-[1rem] text-gray-200 font-mulish text-base font-normal "
+          onClick={handleSearchClick}
+        >
+          <img src={searchW} alt={searchW} className="pr-[0.5rem]" />
+          Search
+        </button>
+      </div>
     </div>
   );
+};
+
+SearchInputField.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  searchQuery: PropTypes.func.isRequired,
 };
 
 export default SearchInputField;

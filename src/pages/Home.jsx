@@ -1,11 +1,20 @@
-import Header from "../components/header/Header";
+import { useState } from "react";
+import Header from "../components/Header/Header";
 import PropertyList from "../components/PropertyList";
 
-const Home = () => (
-  <div className="relative">
-    <Header />
-    <PropertyList />
-  </div>
-);
+const Home = () => {
+  const [params, setSearchParams] = useState({});
+
+  const searchQuery = (query) => {
+    setSearchParams(query);
+  };
+
+  return (
+    <div className="relative">
+      <Header updateSearchQuery={searchQuery} />
+      <PropertyList searchParams={params} />
+    </div>
+  );
+};
 
 export default Home;
