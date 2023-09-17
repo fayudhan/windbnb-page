@@ -6,6 +6,9 @@ const PropertyList = ({ searchParams }) => {
   const [filteredData, setFilteredData] = useState([]);
   const { selectedCity, guests } = searchParams;
 
+  console.log("selectedCity:", selectedCity);
+  console.log("guests:", guests);
+
   useEffect(() => {
     const filterHotels = () => {
       if (selectedCity === undefined && guests === undefined) {
@@ -28,6 +31,8 @@ const PropertyList = ({ searchParams }) => {
 
   const clearSearch = () => {
     setFilteredData(hotelData);
+    searchParams.selectedCity = undefined;
+    searchParams.guests = undefined;
   };
 
   return (
@@ -38,9 +43,13 @@ const PropertyList = ({ searchParams }) => {
         </h1>
         <p className="text-gray-700 font-montserrat text-sm font-medium">
           {filteredData.length} Stays{" "}
-          <button onClick={clearSearch}>
-            <strong>[Clear Search]</strong>
-          </button>
+          {selectedCity !== undefined || guests !== undefined ? (
+            <button onClick={clearSearch}>
+              <strong>[Clear Search]</strong>
+            </button>
+          ) : (
+            ""
+          )}
         </p>
       </div>
       {filteredData.length > 0 ? (
