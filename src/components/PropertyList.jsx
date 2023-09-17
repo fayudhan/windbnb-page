@@ -37,9 +37,9 @@ const PropertyList = ({ searchParams }) => {
           Stays in Finland
         </h1>
         <p className="text-gray-700 font-montserrat text-sm font-medium">
-          {filteredData.length} Stays
+          {filteredData.length} Stays{" "}
           <button onClick={clearSearch}>
-            <strong>Clear Search</strong>
+            <strong>[Clear Search]</strong>
           </button>
         </p>
       </div>
