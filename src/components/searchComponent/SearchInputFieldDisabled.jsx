@@ -26,7 +26,7 @@ const SearchInputFieldDisabled = ({ updateSearchQuery }) => {
           id="text"
           placeholder="Helsinki, Finland"
           value="Helsinki, Finland"
-          className="focus:outline-none esm:w-[7.6rem] lg:w-[7.2rem]"
+          className="focus:outline-none esm:w-[7.6rem] sm:w-[14rem] lg:w-[7.2rem]"
           disabled
         />
 
@@ -34,7 +34,7 @@ const SearchInputFieldDisabled = ({ updateSearchQuery }) => {
           type="number"
           id="guests"
           placeholder="Add guests"
-          className="focus:outline-none esm:w-[7.6rem] lg:w-[7.2rem]"
+          className="focus:outline-none esm:w-[7.6rem]  sm:w-[14rem] lg:w-[7.2rem]"
           disabled
         />
 
