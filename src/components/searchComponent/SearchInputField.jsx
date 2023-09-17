@@ -37,7 +37,7 @@ const SearchInputField = ({ onClose, searchQuery }) => {
   };
 
   return (
-    <div className="fixed z-50 h-full lg:h-auto w-full top-0 left-0 p-4 bg-white lg:flex lg:flex-row lg:items-start lg:justify-between lg:py-[2.81rem] lg:pr-[4rem] lg:py-[4rem] xl:pr-[6.06rem]">
+    <div className="fixed z-50 overflow-y-scroll h-full lg:h-auto w-full top-0 left-0 p-4 bg-white lg:flex lg:flex-row lg:items-start lg:justify-between lg:py-[2.81rem] lg:pr-[4rem] lg:py-[4rem] xl:pr-[6.06rem]">
       <div className="flex flex-row justify-between items-center pb-[1rem] lg:hidden">
         <p className="text-gray-700 font-mulish text-xs font-semibold ">
           Edit your search
