@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import PropertyCard from "./PropertyCard";
 import hotelData from "./../data/stays.json";
+import { useNavigate } from "react-router-dom";
 
 const PropertyList = ({ searchParams }) => {
-  const [filteredData, setFilteredData] = useState([]);
   const { selectedCity, guests } = searchParams;
-
-  console.log("selectedCity:", selectedCity);
-  console.log("guests:", guests);
+  const [filteredData, setFilteredData] = useState([]);
+  const [selectedCard, setSelectedCard] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const filterHotels = () => {
@@ -28,6 +28,17 @@ const PropertyList = ({ searchParams }) => {
     const filteredHotels = filterHotels();
     setFilteredData(filteredHotels);
   }, [selectedCity, guests]);
+
+  const handleCardClick = (id) => {
+    const selected = hotelData[id];
+    setSelectedCard(selected);
+
+    navigate(
+      `/card-detail/${id}?selectedCard=${encodeURIComponent(
+        JSON.stringify(selected)
+      )}`
+    );
+  };
 
   const clearSearch = () => {
     setFilteredData(hotelData);
@@ -55,7 +66,12 @@ const PropertyList = ({ searchParams }) => {
       {filteredData.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-4 lg:grid-cols-3 gap-y-8 md:gap-x-6">
           {filteredData.map((item, index) => (
-            <PropertyCard key={index} data={item} />
+            <PropertyCard
+              key={index}
+              id={index}
+              data={item}
+              onClick={handleCardClick}
+            />
           ))}
         </div>
       ) : (

@@ -1,9 +1,8 @@
 import React from "react";
 import { star } from "../assets";
 import ImageWithOverlay from "./ImageWithOverlay ";
-import { Link } from "react-router-dom";
 
-const PropertyCard = ({ data }) => {
+const PropertyCard = ({ id, data, onClick }) => {
   const superhostTag = data.superHost ? (
     <div className="text-gray-700 font-montserrat text-xsAlt font-semibold uppercase rounded-full border border-gray-700 py-1.5 px-3">
       Superhost
@@ -14,7 +13,11 @@ const PropertyCard = ({ data }) => {
     <div className="bg-white rounded-lg">
       {/* Images */}
 
-      <ImageWithOverlay mainImage={data.photo} />
+      <ImageWithOverlay
+        mainImage={data.photo}
+        id={id}
+        handleCardClick={onClick}
+      />
 
       {/* Content */}
       <div className="flex flex-row justify-between items-center pt-2.5 pb-1">
